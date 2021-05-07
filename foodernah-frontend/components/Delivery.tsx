@@ -29,7 +29,6 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
     )
       .then(res => res.json())
       .then(data => {
-        throw new Error('')
         const points = data
           .flatMap((d: any) => d.directions)
           .map((d: any) => d.polyline.points)
@@ -86,14 +85,6 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
             })
             polyline.setMap(mapRef.current)
             mapRef.current.fitBounds(bounds)
-
-            const mapRange = (
-              value: number,
-              x1: number,
-              y1: number,
-              x2: number,
-              y2: number
-            ) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
 
             const startMs = deliveryStarted.getTime()
             const endMs = estimatedDelivery.getTime()
