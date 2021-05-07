@@ -7,7 +7,6 @@ import { usePromise } from '../util/usePromise'
 
 export default function Home() {
   const geolocation = usePromise(() => getUserGeolocation())
-  console.log(geolocation)
   return (
     geolocation && (
       <div className={styles.container}>
