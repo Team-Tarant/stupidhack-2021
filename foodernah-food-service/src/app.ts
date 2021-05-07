@@ -5,6 +5,7 @@ import * as TE from 'fp-ts/TaskEither'
 import * as E from 'fp-ts/Either'
 import { getRestaurants } from './service/restaurants'
 import { error, FoodernahError } from './error'
+import cors from 'cors'
 
 const app = express()
 
@@ -26,6 +27,8 @@ const handle = <T>(
     )
   )
 }
+
+app.use(cors())
 
 app.get('/api/restaurants', (req, res) =>
   handle(
