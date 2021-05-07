@@ -3,7 +3,7 @@ import { pipe } from 'fp-ts/lib/function'
 import * as t from 'io-ts'
 import * as TE from 'fp-ts/TaskEither'
 import * as E from 'fp-ts/Either'
-import { getRestaurants } from './client/wolt'
+import { getRestaurants } from './service/restaurants'
 import { error, FoodernahError } from './error'
 
 const app = express()

@@ -8,6 +8,7 @@
     "removeComments": true,
     "noUnusedLocals": true,
     "noImplicitAny": true,
+    "resolveJsonModule": true,
     "outDir": "./dist/",
     "rootDirs": ["./src"],
     "lib": ["esnext"],
