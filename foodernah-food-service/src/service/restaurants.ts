@@ -41,13 +41,22 @@ const wordFromNumber = (n: number) =>
 const randomNameFromRestaurants = (venue: Venue) => {
   const nOfWords = 1 + (venue.id.charCodeAt(0) % 3)
 
-  return new Array(nOfWords)
+  const name = new Array(nOfWords)
     .fill(0)
     .map((_, i) => venue.id.substr(i, i + 3))
     .map(strToNumber)
     .map(wordFromNumber)
     .map(capitalizeFirst)
     .join(' ')
+
+  const isPizzeria =
+    venue.tags.includes('pizza') || venue.tags.includes('pizzeria')
+  const isCafe = venue.tags.includes('café') || venue.tags.includes('coffee')
+  const isBurgerPlace = venue.tags.includes('burger')
+
+  return `${isPizzeria ? 'Pizzeria ' : isCafe ? 'Café ' : ''}${name}${
+    isBurgerPlace ? ' Burgers' : ''
+  }`
 }
 
 const parseResponse = (response: { venue: Venue }[]): Restaurant[] =>
