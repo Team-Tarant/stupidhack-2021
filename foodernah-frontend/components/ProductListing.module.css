@@ -1,0 +1,25 @@
+.ProductListing {
+
+}
+
+.ProductListingItem {
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: rgb(0 0 0 / 6%) 0px 0px 0.125rem 0px,
+    rgb(0 0 0 / 12%) 0px 0.125rem 0.125rem 0px;
+}
+
+.ProductListingItemInfo {
+  cursor: pointer;
+}
+
+.ProductListingItemInfo, .ProductListingItemDetails {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ProductListingItemDetails {
+  padding-top: 20px;
+}
