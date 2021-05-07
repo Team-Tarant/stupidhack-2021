@@ -1,0 +1,27 @@
+.delivery {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  background: red;
+}
+
+.main {
+  height: 56%;
+  width: 100%;
+  margin-top: auto;
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+}
+
+.main-content {
+  margin-top: 2rem;
+  background: white;
+  padding: 0 1rem;
+  width: 100%;
+  z-index: 5;
+  position: relative;
+  color: black;
+  height: 40%;
+}
