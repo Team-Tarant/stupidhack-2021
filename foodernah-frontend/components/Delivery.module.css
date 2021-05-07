@@ -3,7 +3,7 @@
   flex-direction: column;
   width: 100%;
   height: 100%;
-  background: red;
+  background: #e74c3c;
 }
 
 .map {
@@ -31,4 +31,31 @@
   position: relative;
   color: black;
   height: 40%;
+}
+
+.main-content-content {
+}
+
+@media screen and (min-width: 760px) {
+  .main-content-content {
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.error {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 0;
+  height: 60%;
+  color: white;
+  padding: 0 2rem;
+}
+
+@media screen and (min-width: 720px) {
+  .error {
+    padding: 5rem;
+  }
 }
