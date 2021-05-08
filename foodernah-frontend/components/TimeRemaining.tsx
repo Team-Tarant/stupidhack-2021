@@ -5,9 +5,10 @@ import styles from './TimeRemaining.module.css'
 
 interface TimeRemainingProps {
   estimatedDelivery: Date
+  deliveryFailed: boolean
 }
 
-const TimeRemaining = ({ estimatedDelivery }: TimeRemainingProps) => {
+const TimeRemaining = ({ estimatedDelivery , deliveryFailed}: TimeRemainingProps) => {
   const [now, setNow] = useState(new Date())
 
   useEffect(() => {
@@ -25,8 +26,16 @@ const TimeRemaining = ({ estimatedDelivery }: TimeRemainingProps) => {
     <div className={styles['time-remaining']}>
       <div className={styles.circle}>
         <div className={styles['circle-content']}>
-          <div className={styles.time}>{date}</div>
-          <div className={styles.remaining}>until successful delivery</div>
+          {!deliveryFailed ? (
+            <>
+              <div className={styles.time}>{date}</div>
+              <div className={styles.remaining}>until successful delivery</div>
+            </>
+          ) : (
+            <>
+              Oh no!
+            </>
+          )}
         </div>
       </div>
     </div>
