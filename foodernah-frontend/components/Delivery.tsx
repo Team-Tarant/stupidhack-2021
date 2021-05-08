@@ -4,7 +4,7 @@ import TimeRemaining from './TimeRemaining'
 import Notification from './Notification'
 import styles from './Delivery.module.css'
 import { explanations } from './data/explanations'
-import { Router, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import random from 'random'
 export interface DeliveryProps {
   deliveryStarted: Date
@@ -32,7 +32,8 @@ const Delivery = ({
   actualEstimatedDelivery,
 }: DeliveryProps) => {
   const mapRef = useRef<any>(null)
-  const queryParams = useRouter().query
+  const router = useRouter()
+  const queryParams = router.query
   const restaurantLocation = queryParams.restaurant
   const clientLocation = queryParams.client
 
@@ -168,7 +169,7 @@ const Delivery = ({
               const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
                 clearInterval(token)
-                // Router.push('/failed')
+                router.push('/failed')
               }
               setDeliveryFailed(thresholdExceeded)
 
