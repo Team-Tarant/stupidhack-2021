@@ -4,7 +4,7 @@ import { useRouter } from 'next/router'
 
 const DeliveryPage = () => {
   const queryParams = useRouter().query
-  const estMin = queryParams.estimate!.toString()
+  const estMin = queryParams.estimate?.toString() || 0
   const est = new Date(
     new Date().getTime() + 1 * (Number(estMin) * 3) * 60 * 1000
   )

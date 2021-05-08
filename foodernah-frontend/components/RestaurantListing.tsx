@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import { getRestaurants, Restaurant } from '../services/restaurants'
 import { usePromise } from '../util/usePromise'
 import styles from './RestaurantListing.module.css'
-import Link from 'next/Link'
+import Link from 'next/link'
 import { GeolocationContext } from '../pages'
 import { Coord } from '../util/geoloc'
 

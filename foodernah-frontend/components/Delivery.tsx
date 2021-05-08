@@ -160,7 +160,7 @@ const Delivery = ({
           {error}
         </div>
       )}
-      <Notification message={notification} />
+      <Notification message={notification!} />
       <div id="map" className={styles.map} />
       <div className={styles['main']}>
         <TimeRemaining
