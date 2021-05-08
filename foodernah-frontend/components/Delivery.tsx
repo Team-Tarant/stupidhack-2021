@@ -169,7 +169,9 @@ const Delivery = ({
         />
         <div className={styles['main-content']}>
           <div className={styles['main-content-content']}>
-            <div className={styles.restaurant}>Restaurant burger mall</div>
+            <div className={styles.restaurant}>
+              {queryParams.restaurantName?.toString() || ''}
+            </div>
             <div className={styles.tip}>Order going too well? Let us know!</div>
           </div>
         </div>

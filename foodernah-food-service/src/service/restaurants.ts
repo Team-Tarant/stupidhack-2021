@@ -82,5 +82,6 @@ export const getRestaurants = ({ lat, lon }: Coord) =>
           .then(res => res.data.sections[0].items),
       error('Failed to get restaurants from wolt')
     ),
-    TE.map(parseResponse)
+    TE.map(parseResponse),
+    TE.map(r => r.slice(0, 20))
   )
