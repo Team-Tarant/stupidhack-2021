@@ -1,0 +1,20 @@
+.button {
+  border: 2px solid #e74c3c;
+  padding: 0.3rem 0.75rem;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.buttoncontainer {
+  margin-top: 1rem;
+}
+
+.page {
+  padding: 0.2rem 1.5rem;
+}
+
+@media screen and (min-width: 720px) {
+  .page {
+    padding: 0.2rem 3rem;
+  }
+}

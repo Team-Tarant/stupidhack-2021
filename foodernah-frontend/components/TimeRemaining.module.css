@@ -1,6 +1,7 @@
 .time-remaining {
   display: block;
   position: relative;
+  pointer-events: none;
 }
 
 @media screen and (min-width: 720px) {

@@ -1,5 +1,6 @@
 import ProductListing from './ProductListing'
 import Cart from './Cart'
+import styles from './Restaurant.module.css'
 import { useState } from 'react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -38,13 +39,17 @@ const Restaurant = ({ name, products }: RestaurantProps) => {
     )
   }
   return (
-    <div>
+    <div className={styles.page}>
       <h1>{name}</h1>
       <ProductListing products={products} cart={cart} updateCart={updateCart} />
       <Cart cart={cart} />
-      <Link href={{ pathname: '/delivery', query }}>
-        <h2>Order now!</h2>
-      </Link>
+      <div className={styles.buttoncontainer}>
+        <Link href={{ pathname: '/delivery', query }}>
+          <div tabIndex={3} className={styles.button}>
+            Order now!
+          </div>
+        </Link>
+      </div>
     </div>
   )
 }
