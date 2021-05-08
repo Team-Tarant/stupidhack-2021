@@ -210,6 +210,8 @@ const Delivery = ({
         <div className={styles['main-content']}>
           <div className={styles['main-content-content']}>
             <div className={styles.restaurant}>Restaurant burger mall</div>
+            <div className={styles.food}>1x Chef's Special</div>
+            <br />
             <div className={styles.tip}>
               Order going too well?{' '}
               <a
