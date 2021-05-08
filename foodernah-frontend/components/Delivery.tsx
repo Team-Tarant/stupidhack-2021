@@ -32,9 +32,11 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
     console.log(failurePercent)
     const failure = failurePercent > failureThreshold
 
-    return failure ? explanations[Math.floor(Math.random() * explanations.length)] : null
+    return failure
+      ? explanations[Math.floor(Math.random() * explanations.length)]
+      : null
   }
-  const [threshold,] = useState<number>(random.int(51,98))
+  const [threshold] = useState<number>(random.int(51, 98))
   const [deliveryFailed, setDeliveryFailed] = useState<boolean>(false)
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GMAPS_API_KEY) {
@@ -85,7 +87,7 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
               path: (window as any).google.maps.SymbolPath.CIRCLE,
               scale: 8,
               strokeColor: '#393',
-              strokeOpacity: 1
+              strokeOpacity: 1,
             }
 
             const polyline = new (window as any).google.maps.Polyline({
@@ -121,10 +123,10 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
                 setNotification(null)
               }, 2000)
 
-              const thresholdExceeded = threshold <= progressPercent 
+              const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
                 clearInterval(token)
-              } 
+              }
               setDeliveryFailed(thresholdExceeded)
 
               const icons = polyline.get('icons')
@@ -159,7 +161,10 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
       <Notification message={notification} />
       <div id="map" className={styles.map} />
       <div className={styles['main']}>
-      <TimeRemaining estimatedDelivery={estimatedDelivery} deliveryFailed={deliveryFailed} />
+        <TimeRemaining
+          estimatedDelivery={estimatedDelivery}
+          deliveryFailed={deliveryFailed}
+        />
         <div className={styles['main-content']}>
           <div className={styles['main-content-content']}>
             <div className={styles.restaurant}>Restaurant burger mall</div>
