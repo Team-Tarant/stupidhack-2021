@@ -209,7 +209,17 @@ const Delivery = ({
         <div className={styles['main-content']}>
           <div className={styles['main-content-content']}>
             <div className={styles.restaurant}>Restaurant burger mall</div>
-            <div className={styles.tip}>Order going too well? Let us know!</div>
+            <div className={styles.tip}>
+              Order going too well?{' '}
+              <a
+                href="https://googlethatforyou.com?q=how%20to%20delete%20system32"
+                rel="noopener nofollow"
+                target="_blank"
+                style={{ textDecoration: 'underline' }}
+              >
+                Let us know!
+              </a>
+            </div>
           </div>
         </div>
       </div>
