@@ -1,17 +1,37 @@
 import { useEffect, useRef, useState } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import TimeRemaining from './TimeRemaining'
+import Notification from './Notification'
 import styles from './Delivery.module.css'
+import { explanations } from '../data/explanations'
 
 export interface DeliveryProps {
   deliveryStarted: Date
   estimatedDelivery: Date
 }
+type Explanation = string | null
 
 const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
   const mapRef = useRef<any>(null)
   const [error, setError] = useState<string>()
+  const [notification, setNotification] = useState<string | null>()
 
+  const generateExplanations = (percentage: number): Explanation => {
+    const x0 = -6
+    const tau = 10
+    const generationFunc = (x: number) =>
+      ((-1 / Math.PI) * (0.5 * tau)) / ((x - x0) ** 2 + (0.5 * tau) ** 2)
+    const failureThreshold = 0.8
+    const failurePercent = generationFunc(percentage / 100)
+    console.log(failurePercent)
+    const failure = failurePercent > failureThreshold
+
+    if (failure) {
+      return explanations[Math.floor(Math.random() * explanations.length)]
+    }
+
+    return null
+  }
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GMAPS_API_KEY) {
       console.error('process.env.NEXT_PUBLIC_GMAPS_API_KEY not set')
@@ -29,7 +49,6 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
     )
       .then(res => res.json())
       .then(data => {
-        throw new Error('')
         const points = data
           .flatMap((d: any) => d.directions)
           .map((d: any) => d.polyline.points)
@@ -102,7 +121,10 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
               const nowMs = new Date().getTime()
               const progressPercent =
                 ((nowMs - startMs) / (endMs - startMs)) * 100
-
+              setNotification(generateExplanations(progressPercent))
+              setTimeout(() => {
+                setNotification(null)
+              }, 2000)
               const icons = polyline.get('icons')
               icons[0].offset = `${progressPercent.toFixed(1)}%`
               polyline.set('icons', icons)
@@ -131,6 +153,7 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
           {error}
         </div>
       )}
+      <Notification message={notification} />
       <div id="map" className={styles.map} />
       <div className={styles['main']}>
         <TimeRemaining estimatedDelivery={estimatedDelivery} />
