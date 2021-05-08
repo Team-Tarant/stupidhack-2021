@@ -6,6 +6,11 @@
   background: #e74c3c;
 }
 
+.restaurant {
+  opacity: 0.8;
+  text-transform: uppercase;
+}
+
 .map {
   position: absolute;
   top: 0;
