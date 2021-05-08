@@ -91,6 +91,9 @@ const Delivery = ({
               {
                 center: { lat: -34.397, lng: 150.644 },
                 zoom: 8,
+                streetViewControl: false,
+                mapTypeId: (window as any).google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false,
               }
             )
 
