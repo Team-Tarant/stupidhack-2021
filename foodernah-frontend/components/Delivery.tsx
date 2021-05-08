@@ -39,20 +39,6 @@ const Delivery = ({
   const [error, setError] = useState<string>()
   const [notification, setNotification] = useState<string | null>()
 
-  const generateExplanations = (percentage: number): Explanation => {
-    const x0 = -6
-    const tau = 10
-    const generationFunc = (x: number) =>
-      ((-1 / Math.PI) * (0.5 * tau)) / ((x - x0) ** 2 + (0.5 * tau) ** 2)
-    const failureThreshold = 0.8
-    const failurePercent = generationFunc(percentage / 100)
-    console.log(failurePercent)
-    const failure = failurePercent > failureThreshold
-
-    return failure
-      ? explanations[Math.floor(Math.random() * explanations.length)]
-      : null
-  }
   const [threshold] = useState<number>(random.int(51, 98))
   const [deliveryFailed, setDeliveryFailed] = useState<boolean>(false)
   useEffect(() => {
@@ -178,10 +164,6 @@ const Delivery = ({
               const nowMs = new Date().getTime()
               const progressPercent =
                 ((nowMs - startMs) / (endMs - startMs)) * 100
-              setNotification(generateExplanations(progressPercent))
-              setTimeout(() => {
-                setNotification(null)
-              }, 2000)
 
               const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
