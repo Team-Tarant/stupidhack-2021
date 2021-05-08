@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import TimeRemaining from './TimeRemaining'
 import Notification from './Notification'
@@ -37,6 +37,22 @@ const Delivery = ({
   const restaurantLocation = queryParams.restaurant
   const clientLocation = queryParams.client
 
+  const [speedCoefficient, setSpeedCoefficient] = useState<number>(1)
+  const speedCoefficientRef = useRef(speedCoefficient)
+
+  const handleSpeedyClick = useCallback(() => {
+    setSpeedCoefficient(speed => speed + 0.1)
+  }, [setSpeedCoefficient])
+
+  useEffect(() => {
+    speedCoefficientRef.current = speedCoefficient
+  }, [speedCoefficient])
+
+  const shownEstimatedDelivery = new Date(
+    (estimatedDelivery.getTime() - deliveryStarted.getTime()) /
+      speedCoefficient +
+      deliveryStarted.getTime()
+  )
   const [error, setError] = useState<string>()
   const [notification, setNotification] = useState<string | null>()
 
@@ -75,6 +91,9 @@ const Delivery = ({
               {
                 center: { lat: -34.397, lng: 150.644 },
                 zoom: 8,
+                streetViewControl: false,
+                mapTypeId: (window as any).google.maps.MapTypeId.ROADMAP,
+                mapTypeControl: false,
               }
             )
 
@@ -164,7 +183,9 @@ const Delivery = ({
             token = setInterval(() => {
               const nowMs = new Date().getTime()
               const progressPercent =
-                ((nowMs - startMs) / (endMs - startMs)) * 100
+                ((nowMs - startMs) /
+                  ((endMs - startMs) / speedCoefficientRef.current)) *
+                100
 
               const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
@@ -205,7 +226,7 @@ const Delivery = ({
       <div id="map" className={styles.map} />
       <div className={styles['main']}>
         <TimeRemaining
-          estimatedDelivery={actualEstimatedDelivery}
+          estimatedDelivery={shownEstimatedDelivery}
           deliveryFailed={deliveryFailed}
         />
         <div className={styles['main-content']}>
@@ -214,6 +235,11 @@ const Delivery = ({
               {queryParams.restaurantName?.toString() || ''}
             </div>
             <div className={styles.food}>1x Chef's Special</div>
+            <br />
+            <button onClick={handleSpeedyClick} className={styles.fasterbtn}>
+              Tell courier to go faster
+            </button>
+            <br />
             <br />
             <div className={styles.tip}>
               Order going too well?{' '}
