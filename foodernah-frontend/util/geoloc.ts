@@ -1,4 +1,4 @@
-type Coord = {
+export type Coord = {
   lat: string
   lon: string
 }

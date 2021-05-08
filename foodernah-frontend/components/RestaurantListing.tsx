@@ -1,18 +1,27 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { getRestaurants, Restaurant } from '../services/restaurants'
 import { usePromise } from '../util/usePromise'
 import styles from './RestaurantListing.module.css'
 import Link from 'next/Link'
+import { GeolocationContext } from '../pages'
+import { Coord } from '../util/geoloc'
 
-type Props = {
-  clientPos: {
-    lat: string
-    lon: string
-  }
-}
-
-const RestaurantItem = ({ restaurant }: { restaurant: Restaurant }) => (
-  <Link href="/delivery">
+const RestaurantItem = ({
+  restaurant,
+  clientPos,
+}: {
+  restaurant: Restaurant
+  clientPos: Coord
+}) => (
+  <Link
+    href={{
+      pathname: '/delivery',
+      query: {
+        restaurant: `${restaurant.location.lat},${restaurant.location.long}`,
+        client: `${clientPos.lat},${clientPos.lon}`,
+      },
+    }}
+  >
     <div className={styles['restaurant-item']}>
       <div className={styles['restaurant-image']}></div>
       <div className={styles['restaurant-info']}>
@@ -26,15 +35,18 @@ const RestaurantItem = ({ restaurant }: { restaurant: Restaurant }) => (
   </Link>
 )
 
-export const RestaurantListing = ({ clientPos }: Props) => {
+export const RestaurantListing = () => {
+  const clientPos = useContext(GeolocationContext)
+
   const maybeRestaurants = usePromise(() =>
-    getRestaurants(clientPos.lat, clientPos.lon)
+    getRestaurants(clientPos!.lat, clientPos!.lon)
   )
+
   return maybeRestaurants ? (
     <ul style={{ listStyleType: 'none' }}>
       {maybeRestaurants.map(restaurant => (
         <li>
-          <RestaurantItem restaurant={restaurant} />
+          <RestaurantItem restaurant={restaurant} clientPos={clientPos!} />
         </li>
       ))}
     </ul>
