@@ -4,7 +4,7 @@ import TimeRemaining from './TimeRemaining'
 import Notification from './Notification'
 import styles from './Delivery.module.css'
 import { explanations } from './data/explanations'
-import { useRouter } from 'next/router'
+import { Router, useRouter } from 'next/router'
 import random from 'random'
 export interface DeliveryProps {
   deliveryStarted: Date
@@ -129,6 +129,7 @@ const Delivery = ({
               const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
                 clearInterval(token)
+                // Router.push('/failed')
               }
               setDeliveryFailed(thresholdExceeded)
 
