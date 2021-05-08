@@ -1,9 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import { Loader } from '@googlemaps/js-api-loader'
 import TimeRemaining from './TimeRemaining'
 import Notification from './Notification'
 import styles from './Delivery.module.css'
 import { explanations } from '../data/explanations'
+import { useRouter } from 'next/router'
+import { Coord } from '../util/geoloc'
 
 export interface DeliveryProps {
   deliveryStarted: Date
@@ -13,6 +15,9 @@ type Explanation = string | null
 
 const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
   const mapRef = useRef<any>(null)
+  const queryParams = useRouter().query
+  const restaurantLocation = queryParams.restaurant
+  const clientLocation = queryParams.client
   const [error, setError] = useState<string>()
   const [notification, setNotification] = useState<string | null>()
 
@@ -43,9 +48,7 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
     fetch(
       //'https://323bca54f19d.ngrok.io/api/route?startLocation=60.161720,24.867850&homeAddress=Leppäsuonkatu%2011'
       //59.933006, 30.347582 Voznesensky Ave, 25, Sankt-Peterburg, Russia, 190068
-      `https://323bca54f19d.ngrok.io/api/route?startLocation=59.933006,30.347582&homeAddress=${encodeURIComponent(
-        'Armitage, Saint-Petersburg, Russia'
-      )}`
+      `https://foodernah-route-fuckery.herokuapp.com/api/route?startLocation=${restaurantLocation}&homeAddress=${clientLocation}`
     )
       .then(res => res.json())
       .then(data => {
@@ -105,14 +108,6 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
             })
             polyline.setMap(mapRef.current)
             mapRef.current.fitBounds(bounds)
-
-            const mapRange = (
-              value: number,
-              x1: number,
-              y1: number,
-              x2: number,
-              y2: number
-            ) => ((value - x1) * (y2 - x2)) / (y1 - x1) + x2
 
             const startMs = deliveryStarted.getTime()
             const endMs = estimatedDelivery.getTime()

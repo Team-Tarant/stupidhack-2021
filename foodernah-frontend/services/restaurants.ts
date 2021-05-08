@@ -14,6 +14,4 @@ export const getRestaurants = (
 ): Promise<Restaurant[]> =>
   fetch(
     `https://foodernah-restaurants.herokuapp.com/api/restaurants?lat=${lat}&lon=${lon}`
-  )
-    .then(res => res.json())
-    .then((restaurants: Restaurant[]) => restaurants.filter(r => !!r.estimate))
+  ).then(res => res.json())
