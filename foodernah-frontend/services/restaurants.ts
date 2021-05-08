@@ -5,6 +5,7 @@ export type Restaurant = {
     long: string
   }
   estimate: string
+  estimateMin: number
   tags: string[]
 }
 

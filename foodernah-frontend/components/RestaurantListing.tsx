@@ -1,8 +1,8 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { getRestaurants, Restaurant } from '../services/restaurants'
 import { usePromise } from '../util/usePromise'
 import styles from './RestaurantListing.module.css'
-import Link from 'next/Link'
+import Link from 'next/link'
 import { GeolocationContext } from '../pages'
 import { Coord } from '../util/geoloc'
 
@@ -15,10 +15,12 @@ const RestaurantItem = ({
 }) => (
   <Link
     href={{
-      pathname: '/delivery',
+      pathname: '/restaurant',
       query: {
         restaurant: `${restaurant.location.lat},${restaurant.location.long}`,
         client: `${clientPos.lat},${clientPos.lon}`,
+        estimate: restaurant.estimateMin,
+        restaurantName: restaurant.name,
       },
     }}
   >
