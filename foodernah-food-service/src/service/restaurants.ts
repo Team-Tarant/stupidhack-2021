@@ -16,6 +16,7 @@ type Restaurant = {
     long: string
   }
   estimate: string
+  estimateMin: number
   tags: string[]
 }
 
@@ -24,6 +25,7 @@ type Venue = {
   name: string
   location: string[]
   estimate_range: string
+  estimate: number
   tags: string[]
 }
 
@@ -66,6 +68,7 @@ const parseResponse = (response: { venue: Venue }[]): Restaurant[] =>
       lat: venue.location[1],
       long: venue.location[0],
     },
+    estimateMin: venue.estimate,
     estimate: venue.estimate_range,
     tags: venue.tags,
   }))

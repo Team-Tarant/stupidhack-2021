@@ -19,6 +19,7 @@ const RestaurantItem = ({
       query: {
         restaurant: `${restaurant.location.lat},${restaurant.location.long}`,
         client: `${clientPos.lat},${clientPos.lon}`,
+        estimate: restaurant.estimateMin,
       },
     }}
   >

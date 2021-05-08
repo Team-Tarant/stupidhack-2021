@@ -3,18 +3,21 @@ import { Loader } from '@googlemaps/js-api-loader'
 import TimeRemaining from './TimeRemaining'
 import Notification from './Notification'
 import styles from './Delivery.module.css'
-import { explanations } from '../data/explanations'
+import { explanations } from './data/explanations'
 import { useRouter } from 'next/router'
-import { Coord } from '../util/geoloc'
 import random from 'random'
-
 export interface DeliveryProps {
   deliveryStarted: Date
   estimatedDelivery: Date
+  actualEstimatedDelivery: Date
 }
 type Explanation = string | null
 
-const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
+const Delivery = ({
+  deliveryStarted,
+  estimatedDelivery,
+  actualEstimatedDelivery,
+}: DeliveryProps) => {
   const mapRef = useRef<any>(null)
   const queryParams = useRouter().query
   const restaurantLocation = queryParams.restaurant
@@ -32,9 +35,11 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
     console.log(failurePercent)
     const failure = failurePercent > failureThreshold
 
-    return failure ? explanations[Math.floor(Math.random() * explanations.length)] : null
+    return failure
+      ? explanations[Math.floor(Math.random() * explanations.length)]
+      : null
   }
-  const [threshold,] = useState<number>(random.int(51,98))
+  const [threshold] = useState<number>(random.int(51, 98))
   const [deliveryFailed, setDeliveryFailed] = useState<boolean>(false)
   useEffect(() => {
     if (!process.env.NEXT_PUBLIC_GMAPS_API_KEY) {
@@ -85,7 +90,7 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
               path: (window as any).google.maps.SymbolPath.CIRCLE,
               scale: 8,
               strokeColor: '#393',
-              strokeOpacity: 1
+              strokeOpacity: 1,
             }
 
             const polyline = new (window as any).google.maps.Polyline({
@@ -121,14 +126,13 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
                 setNotification(null)
               }, 2000)
 
-              const thresholdExceeded = threshold <= progressPercent 
+              const thresholdExceeded = threshold <= progressPercent
               if (thresholdExceeded) {
                 clearInterval(token)
-              } 
+              }
               setDeliveryFailed(thresholdExceeded)
 
               const icons = polyline.get('icons')
-              console.log(icons)
               icons[0].offset = `${progressPercent.toFixed(1)}%`
               polyline.set('icons', icons)
             }, 100)
@@ -159,7 +163,10 @@ const Delivery = ({ deliveryStarted, estimatedDelivery }: DeliveryProps) => {
       <Notification message={notification} />
       <div id="map" className={styles.map} />
       <div className={styles['main']}>
-      <TimeRemaining estimatedDelivery={estimatedDelivery} deliveryFailed={deliveryFailed} />
+        <TimeRemaining
+          estimatedDelivery={actualEstimatedDelivery}
+          deliveryFailed={deliveryFailed}
+        />
         <div className={styles['main-content']}>
           <div className={styles['main-content-content']}>
             <div className={styles.restaurant}>Restaurant burger mall</div>
