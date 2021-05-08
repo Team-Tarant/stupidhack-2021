@@ -172,7 +172,7 @@ const Delivery = ({
               setDeliveryFailed(thresholdExceeded)
 
               const icons = polyline.get('icons')
-              icons[0].offset = `${progressPercent.toFixed(1)}%`
+              icons[0].offset = `${progressPercent.toFixed(2)}%`
               polyline.set('icons', icons)
             }, 100)
           })
