@@ -212,6 +212,8 @@ const Delivery = ({
             <div className={styles.restaurant}>
               {queryParams.restaurantName?.toString() || ''}
             </div>
+            <div className={styles.food}>1x Chef's Special</div>
+            <br />
             <div className={styles.tip}>
               Order going too well?{' '}
               <a
